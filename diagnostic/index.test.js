@@ -15,11 +15,10 @@ async function runTests() {
 
   const msgs = await getFixCommits();
 
-  if (msgs.length !== 2) {
-    throw new Error(`Expected 2 unique fix commits, got ${msgs.length}`);
-  }
-  if (!msgs.some(m => m.toLowerCase().includes("fix"))) {
-    throw new Error("Expected messages to contain 'fix'");
+  // Assert exact snapshot of what we expect
+  const expected = ["fix: corrected typo", "Fix memory leak"];
+  if (JSON.stringify(msgs) !== JSON.stringify(expected)) {
+    throw new Error(`Expected ${JSON.stringify(expected)}, got ${JSON.stringify(msgs)}`);
   }
 
   console.log("✅ All tests passed!");
